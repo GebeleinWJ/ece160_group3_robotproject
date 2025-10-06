@@ -1,26 +1,30 @@
+#include <Adafruit_MCP23X17.h>
+Adafruit_MCP23X17.h gpioExt;
+
+#define GPB0 8
+#define GPB1 9
+#define nSLPLPin GPB0
+#define nSLPRPin GPB1
+#define rightMotorDIRPin 15
+#define rightMotorPWMPin 13
+#define leftMotorDIRPin 14
+#define leftMotorPWMPin 12
+#define motorFreq 500
+#define motorPwmBits 8
+#define FWD LOW
+#define REV HIGH
+const int motorPwmMaxCount = pow(2,motorPwmBits);
+int pwmGoLowCount;
+int pwmDutyCycle = 0
+int baudrate = 115200
+
+
 void setup() {
   // put your setup code here, to run once:
 
 }
 
 void loop() {
-  if (Serial.available() >= 1) {
-    pwmDutyCycle = Serial.parseInt();
-    Serial.print("The duty cycle is: ");
-    Serial.println(pwmDutyCyle);
-  }  
-  if ((pwmDutyCycle >= 0) && (pwmDutyCycle <= 100)) {
-    gpioExt.digitalWrite(nSLPLPin, HIGH);
-    gpioExt.digitalWrite(nSLPRPin, HIGH);
-    digitalWrite(rightMotorDIRPin, REV);
-    digitalWrite(leftMotoDIRPin, REV);
-    pwmGoLowCount = 0.01 * pwmDutyCycle * motorPwmMaxCount;
-    ledcWrite(rightMotorPWMPin, pwmGoLowCount);
-    ledcWrite(leftMotorPWMPin, pwmGoLowCount);
-  } else {
-    Serial.println("You entered an invalid Duty Cycle: setting it to ");
-    pwmDutyCycle = 0;
-    gpioExt.digitalWrite(nSLPLPin, LOW);
-    gpioExt.digitalWrite(nSLPRPin, LOW);
-  }
+  // put your main code here, to run repeatedly:
+
 }
