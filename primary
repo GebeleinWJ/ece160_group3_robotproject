@@ -146,40 +146,40 @@ void loop() {
   //   gpioExt.digitalWrite(nSLPLPin, LOW);
   //   gpioExt.digitalWrite(nSLPRPin, LOW);
   // }
-
+/*Pivots are when one wheel turns, turns are when both wheels turn with one wheel slower than other, spins are when both wheels turn in opposite directions*/ 
   switch (MODE) {
-    case BUTTON_MODE:
-      pwmDutyCycle = 50;
+    case BUTTON_MODE://if the PS4 controller is using its buttons to move the robot
+      pwmDutyCycle = 50; //set motor speed to half its maximum
       switch (STATE) {
-        case STOP:
-          run_STOP();
-          find_btnState();
+        case STOP: //for the case STOP
+          run_STOP(); //runs the stop function
+          find_btnState(); //finds the current button state
           break;
-        case FORWARD:
-          run_FORWARD();
-          find_btnState();
+        case FORWARD://for the case FORWARD
+          run_FORWARD();//runs the forward function
+          find_btnState();//finds the current button state
           break;
-        case REVERSE:
-          run_REVERSE();
-          find_btnState();
+        case REVERSE://for the case REVERSE
+          run_REVERSE();//runs the reverse function
+          find_btnState();//finds the current button state
           break;
-        case TURNRF:
-          run_TURNRF();
-          find_btnState();
+        case TURNRF://for the case TURNRF
+          run_TURNRF();//runs the turning forward right function
+          find_btnState();//finds the current button state
           break;
-        case TURNLF:
-          run_TURNLF();
-          find_btnState();
+        case TURNLF://for the case TURNLF
+          run_TURNLF();//runs the turning forward left function
+          find_btnState();//finds the current button state
           break;
-        case TURNRR:
-          run_TURNRR();
-          find_btnState();
+        case TURNRR://for the case TURNRR
+          run_TURNRR();//runs the turning reverse right function
+          find_btnState();//finds the current button state
           break;
-        case TURNLR:
-          run_TURNLR();
-          find_btnState();
+        case TURNLR://for the case TURNLR
+          run_TURNLR();//runs the turning reverse left function
+          find_btnState();//finds the current button state
           break;
-        case PIVOTRF:
+        case PIVOTRF://for the case PIVOTRF
           run_PIVOTRF();
           find_btnState();
           break;
@@ -196,11 +196,11 @@ void loop() {
           find_btnState();
           break;
         case SPINCL:
-          run_SPINCL();
+          run_SPINCL(); //runs the spining clockwise function
           find_btnState();
           break;
         case SPINCCL:
-          run_SPINCCL();
+          run_SPINCCL(); //runs the spining counterclockwise function
           find_btnState();
           break;
         default:
@@ -208,7 +208,7 @@ void loop() {
       }
       if (PS4.Touchpad()) MODE = JOYSTICK_MODE;
       break;
-    case JOYSTICK_MODE:
+    case JOYSTICK_MODE://if the PS4 controller is using its joysticks to move the robot
       joystick_LYValue = read_LYValue();
       joystick_RYValue = read_RYValue();
       pwmDutyCycleL = constrain(abs(joystick_LYValue), 0, 100);
