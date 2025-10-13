@@ -1,0 +1,47 @@
+int nothing = 0;
+int forLeft = 1;
+int spinLeft = 2;
+int backLeft = 3;
+int forRight = 4;
+int spinRight = 5;
+int backRight = 6;
+int forward = 7;
+int backward = 8;
+/*above values correspond to the desired movement*/
+int arr[2] = { 0, 0 };  //detects buttons, -1 for back, 0 for non, 1 for forward
+
+int buttonRead()  //sets the array values based on which buttons are pressed, then returns a value based on the array
+{
+  if (PS4.isConnected()) {
+    if (PS4.Down()) {
+      arr[0] = -1;
+    } else if (PS4.Up()) {
+      arr[0] = 1;
+    }
+    if (PS4.Cross()) return PS4.Cross() {
+        arr[1] = 1;
+      }
+    else if (PS4.Triangle()) return PS4.Triangle() {
+        arr[1] = -1;
+      }
+  }
+  if (arr == { 1, 0 }) {
+    return forLeft;
+  } else if (arr == { 1, -1 }) {
+    return spinLeft;
+  } else if (arr == { -1, 0 }) {
+    return backLeft;
+  } else if (arr == { 0, 1 }) {
+    return forRight;
+  } else if (arr == { -1, 1 }) {
+    return spinRight;
+  } else if (arr == { 0, -1 }) {
+    return backRight;
+  } else if (arr == { 1, 1 }) {
+    return forward;
+  } else if (arr == { -1, -1 }) {
+    return backwards;
+  } else {
+    return nothing;
+  }
+}
