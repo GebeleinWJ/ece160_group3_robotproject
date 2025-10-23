@@ -15,6 +15,7 @@
 #define SPINCL 11   //spins clock-wise
 #define SPINCCL 12  // Spins councter-clockwise
 
+
 // float readControllerData() {
 //   // Below has all accessible outputs from the controller
 //   if (PS4.isConnected()) {
@@ -307,7 +308,26 @@ void run_SPINCCL() {
   ledcWrite(rightMotorPWMPin, pwmGoLowCount);
   ledcWrite(leftMotorPWMPin, pwmGoLowCount);
 }
-
+void run_courseCorrectLeft(){
+  gpioExt.digitalWrite(nSLPLPin, HIGH);
+  gpioExt.digitalWrite(nSLPRPin, HIGH);
+  digitalWrite(rightMotorDIRPin, FWD);
+  digitalWrite(leftMotorDIRPin, FWD);
+  pwmGoLowCount = 0.01 * pwmDutyCycle * motorPwmMaxCount;
+  ledcWrite(rightMotorPWMPin, pwmGoLowCount);
+  ledcWrite(leftMotorPWMPin, pwmGoLowCount * 0.75);
+  count=count+1;
+}
+void run_courseCorrectRight(){
+  gpioExt.digitalWrite(nSLPLPin, HIGH);
+  gpioExt.digitalWrite(nSLPRPin, HIGH);
+  digitalWrite(rightMotorDIRPin, FWD);
+  digitalWrite(leftMotorDIRPin, FWD);
+  pwmGoLowCount = 0.01 * pwmDutyCycle * motorPwmMaxCount;
+  ledcWrite(rightMotorPWMPin, pwmGoLowCount);
+  ledcWrite(leftMotorPWMPin, pwmGoLowCount * 0.75);
+  count=count-1;
+}
 /*
   Above are the functions for the robots when it uses the button tank contrls.
 */
