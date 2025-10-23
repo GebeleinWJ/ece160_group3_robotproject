@@ -127,6 +127,9 @@ float read_LXValue();
 float joystick_LYValue;
 float joystick_RYValue;
 
+int count = 0;
+int inverse =0;
+
 
 void setup() {
   Serial.begin(baudrate);
@@ -143,21 +146,21 @@ void setup() {
   ledcAttach(leftMotorPWMPin, motorFreq, motorPwmBits);
   PS4.begin();
 
-/*
+  /*
 --------------------------------------------------------------------------Above are the setup functions to get the motor ready to run--------------------------------
 */
   pwmExt.begin();
   pwmExt.setOscillatorFrequency(oscFreq);
   pwmExt.setPWMFreq(servoFreq);
   pwmExt.setPWM(clawServoNum, ON_COUNT, pwm90DegCount);
-/*
+  /*
 --------------------------------------------------------------------------Above ar ethe defined functions for the SERVO CLAW--------------------------------
 */
   gpioExt.begin_I2C(0x20);
   for (int i = 0; i < 6; i++) {
     gpioExt.pinMode(gpioExtPins[i], INPUT_PULLUP);
   }
-/*
+  /*
 --------------------------------------------------------------------------Above are the defined values for the REAR BUMPERS--------------------------------
 */
   qtrArray.setTypeRC();
@@ -195,7 +198,7 @@ void loop() {
     Serial.print(sensorValues[i]);
     Serial.print(" ");
   }
-/*
+  /*
 ------------------------------------------------------------------------------------------------------ABOVE IS READ SENSOR VALUES-----------------------------------------------------------------------------
 */
   switch (LINESTATE) {
@@ -221,13 +224,45 @@ void loop() {
       find_LINESTATE();
       Serial.println("OFF_LEFT");
       break;
+    case CC_LEFT:
+      pwmDutyCycle = 50;
+      if(inverse=0)
+      {
+        run_courseCorrectLeft();
+        count++;
+      }
+      else
+      {
+        run_courseCorrectRight();
+        count--;
+      }
+      if(count ==5){inverse =1;}
+      if(count==0){inverse=0;}
+      find_LINESTATE();
+      break;
+    case CC_RIGHT:
+      pwmDutyCycle = 50;
+      if(inverse=1)
+      {
+        run_courseCorrectLeft();
+        count--;
+      }
+      else
+      {
+        run_courseCorrectRight();
+        count++;
+      }
+      if(count ==5){inverse =1;}
+      if(count==0){inverse=0;}
+      find_LINESTATE();
+      break;
     default:
       run_STOP();
       find_LINESTATE();
       break;
   }
 
-/*
+  /*
 -----------------------------------------------------------------------------ABOVE IS LINE FOLLOWING----------------------------------------------------------------------------------------
 */
 
@@ -243,7 +278,7 @@ void loop() {
     default:
       break;
   }
-/*
+  /*
 --------------------------------------------------------------------------Above is the state case statements for the CLAW, every case will detect what the next state will be----------
 --------------------------------------------------------------------------and depending on the state, will either open or close--------------------------------
 */
@@ -386,7 +421,7 @@ void loop() {
     default:
       break;
   }
-/*
+  /*
 --------------------------------------------------------------------------Above is the main switch state case statements for the robot, it reads which mode is being used------------
 --------------------------------------------------------------------------to contorl the robot: either joystick or butotn, both using tank controls. It switches modes by pressing on
 --------------------------------------------------------------------------the touchpad on the ps4 controller. This is a nested switch case state
