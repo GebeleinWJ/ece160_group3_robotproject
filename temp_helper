@@ -345,4 +345,22 @@ void loop() {
 --------------------------------------------------------------------------Above is the switch case statement for the body of the orbot, finding whether or not it --------------------------------
 --------------------------------------------------------------------------is in contact with a wall or other physical object. Changes state by reading bumper vlaues
 */
+void hurdle() {
+  if ((sensorValues[0] < 1000) && (sensorValues[7] < 1000)) {
+
+    allOn();
+  } else {
+    allOff();
+  }
+}
+
+void allOff() {
+
+  gpioExt.digitalWrite(LEDPin, LOW);
+}
+
+void allOn() {
+
+  gpioExt.digitalWrite(LEDPin, HIGH);
+}
 }
