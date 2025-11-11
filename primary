@@ -151,6 +151,7 @@ float read_LXValue();
 float joystick_LYValue;
 float joystick_RYValue;
 #define LEDPin 10
+#define LEDPin2 11
 
 int count = 0;
 int inverse = 0;
@@ -299,7 +300,9 @@ void loop() {
           break;
         case LINE_JUMP:
           Serial.println("LINE_JUMP");
-          run_STOP();
+          longMovement();
+          longLight();
+          longLine();
           if (PS4.Up()) EVENT = LINEFOLLOW_MODE;
           else if (PS4.Options()) EVENT = SHOTPUT;
           break;
